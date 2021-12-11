@@ -6,7 +6,7 @@
   display: flex;
   align-items: center;
   position: absolute;
-  box-shadow: 0px 4px 5px grey;
+  box-shadow: 0 4px 5px grey;
   width: 100%;
   z-index: 999;
 
@@ -36,6 +36,10 @@
     background: url('../assets/img/eraser.png') no-repeat center center;
   }
 
+  .line {
+    background: url('../assets/img/line.png') no-repeat center center;
+  }
+
   .undo {
     background: url('../assets/img/undo.png') no-repeat center center;
     margin-left: auto;
@@ -57,7 +61,7 @@
   display: flex;
   align-items: center;
   position: absolute;
-  box-shadow: 0px 4px 5px grey;
+  box-shadow: 0 4px 5px grey;
   width: 100%;
   top: $toolbar-height;
 }
