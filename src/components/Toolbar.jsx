@@ -58,8 +58,18 @@ const Toolbar = observer(() => {
         style={{ marginLeft: "10px" }}
       />
       <div>{Math.random()}</div>
-      <button className={"toolbar__bnt undo"}></button>
-      <button className={"toolbar__bnt redo"}></button>
+      <button
+        className={"toolbar__bnt undo"}
+        onClick={() => {
+          canvasState.undo();
+        }}
+      ></button>
+      <button
+        className={"toolbar__bnt redo"}
+        onClick={() => {
+          canvasState.redo();
+        }}
+      ></button>
       <button className={"toolbar__bnt save"}></button>
     </div>
   );
