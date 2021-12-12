@@ -14,7 +14,23 @@ export default class Rect extends Tool {
 
   mouseUpHandler() {
     this.mouseDown = false;
+    this.socket.send(
+      JSON.stringify({
+        method: "draw",
+        id: this.id,
+        figure: {
+          type: "rect",
+          x: this.startX,
+          y: this.startY,
+          width: this.width,
+          height: this.height,
+          strokeColor: this.ctx.strokeColor,
+          fillColor: this.ctx.fillColor,
+        },
+      })
+    );
   }
+
   mouseDownHandler(e) {
     this.mouseDown = true;
     this.ctx.beginPath();
@@ -26,21 +42,16 @@ export default class Rect extends Tool {
     if (this.mouseDown) {
       let currentX = e.pageX - (e.target.offsetLeft + 2);
       let currentY = e.pageY - (e.target.offsetTop + 3);
-      let width = currentX - this.startX;
-      let height = currentY - this.startY;
-      this.draw(this.startX, this.startY, width, height);
+      this.width = currentX - this.startX;
+      this.height = currentY - this.startY;
     }
   }
-  draw(x, y, w, h) {
-    const img = new Image();
-    img.src = this.saved;
-    img.onload = () => {
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
-      this.ctx.beginPath();
-      this.ctx.rect(x, y, w, h);
-      this.ctx.fill();
-      this.ctx.stroke();
-    };
+  static draw(ctx, x, y, w, h, strokeColor, fillColor) {
+    ctx.strokeStyle = strokeColor;
+    ctx.fillStyle = fillColor;
+    ctx.beginPath();
+    ctx.rect(x, y, w, h);
+    ctx.fill();
+    ctx.stroke();
   }
 }

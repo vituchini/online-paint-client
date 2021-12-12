@@ -57,7 +57,6 @@ const Toolbar = observer(() => {
         type="color"
         style={{ marginLeft: "10px" }}
       />
-      <div>{Math.random()}</div>
       <button
         className={"toolbar__bnt undo"}
         onClick={() => {

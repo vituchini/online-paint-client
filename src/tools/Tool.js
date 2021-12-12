@@ -1,8 +1,11 @@
 import toolState from "../store/toolState";
+import canvasState from "../store/canvasState";
 
 export default class Tool {
   constructor(canvas) {
     this.canvas = canvas;
+    this.socket = canvasState.socket;
+    this.id = canvasState.sessionId;
     this.ctx = canvas.getContext("2d");
     this.destroyEvents();
     this.strokeColor = toolState.strokeColor;
