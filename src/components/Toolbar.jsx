@@ -10,6 +10,16 @@ import { observer } from "mobx-react-lite";
 import Erase from "../tools/Erase";
 
 const Toolbar = observer(() => {
+  const download = () => {
+    const dataUrl = canvasState.canvas.toDataURL();
+    const a = document.createElement("a");
+    a.href = dataUrl;
+    console.log(canvasState.sessionId);
+    a.download = canvasState.sessionId + ".jpeg";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
   return (
     <div className={"toolbar"}>
       <button
@@ -69,7 +79,10 @@ const Toolbar = observer(() => {
           canvasState.redo();
         }}
       ></button>
-      <button className={"toolbar__bnt save"}></button>
+      <button
+        className={"toolbar__bnt save"}
+        onClick={() => download()}
+      ></button>
     </div>
   );
 });
