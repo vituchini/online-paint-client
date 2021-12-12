@@ -21,6 +21,7 @@ export default class Line extends Tool {
     this.startX = e.pageX - e.target.offsetLeft - 2;
     this.startY = e.pageY - e.target.offsetTop - 3;
     this.saved = this.canvas.toDataURL();
+    console.log(this.canvas.toDataURL());
   }
   mouseMoveHandler(e) {
     if (this.mouseDown) {

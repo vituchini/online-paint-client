@@ -7,6 +7,7 @@ import Brush from "../tools/Brush";
 import { Button, Modal } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import Rect from "../tools/Rect";
+import axios from "axios";
 
 const Canvas = observer(() => {
   const canvasRef = useRef();
@@ -15,7 +16,20 @@ const Canvas = observer(() => {
 
   useEffect(() => {
     canvasState.setCanvas(canvasRef.current);
-  }, []);
+    axios
+      .get(`http://localhost:5000/image?id=${canvasState.sessionId}`)
+      .then((response) => {
+        const canvas = canvasState.canvas;
+        const ctx = canvas.getContext("2d");
+        const img = new Image();
+        img.src = response.data;
+        img.onload = () => {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          ctx.stroke();
+        };
+      });
+  }, [canvasState.sessionId]);
 
   useEffect(() => {
     if (canvasState.username) {
@@ -80,6 +94,14 @@ const Canvas = observer(() => {
     canvasState.pushToUndo();
   };
 
+  const mouseUpHandler = (e) => {
+    axios
+      .post(`http://localhost:5000/image?id=${canvasState.sessionId}`, {
+        img: canvasState.canvas.toDataURL(),
+      })
+      .then((response) => console.log(response.data));
+  };
+
   function connectHandler() {
     setModalIsVisible(false);
   }
@@ -89,6 +111,9 @@ const Canvas = observer(() => {
       <canvas
         onMouseDown={() => {
           mouseDownHandler();
+        }}
+        onMouseUp={() => {
+          mouseUpHandler();
         }}
         ref={canvasRef}
         width={700}
